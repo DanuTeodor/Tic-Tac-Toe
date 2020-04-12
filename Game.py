@@ -6,7 +6,13 @@ game_board = [
     ['4','5','6'],
     ['7','8','9'],
 ]
-
+'''
+dict posible = {
+    "X"  : 1,
+    "O"  : 0,
+    "X&O": -1
+}
+'''
 # to see if the board is full
 def board_full(game_board):
     '''
@@ -234,96 +240,114 @@ def computer_move(difficulty):
 
 print("If you want to play agaist another player press 1. If you want to play agaist computer press 0")
 player_vs_player = int(input())
-# player vs player0
-if(player_vs_player == 1):
-    print("Please put numbers between 1 and 9")
-    print("Player1 is X and Player2 have O")
-    print("Good luck for both of you!")
-    player1 = 1
-    finish = False
-    print_board(game_board)
+ok = False
+if player_vs_player == 1 or player_vs_player == 0:
+    ok = True
+while ok == False:
+    print("Invalid input. Please select 1 or 0")
+    player_vs_player = int(input())
+    if player_vs_player == 1 or player_vs_player == 0:
+        ok = True
+if ok == True:
+    if(player_vs_player == 1):
+        print("Please put numbers between 1 and 9")
+        print("Player1 is X and Player2 have O")
+        print("Good luck for both of you!")
+        player1 = 1
+        finish = False
+        print_board(game_board)
 
-    while finish == False:
-        if player1 == 1: # player1 turn
-            print("Player1's turn")
-            x = int(input("Where do you want to move?"))
-            # check the move
-            if verif_move(x, game_board) == True:
-                put_move(x, player1) # put the move it's valid
-                print_board(game_board)
-            # try again if it's not valid
-            elif verif_move(x, game_board) == False or x > 9 or x < 1:
-                while verif_move(x, game_board) == False:
-                    print("Invalid move. Please put again")
-                    x = int(input("Where do you want to move?"))
-                    if verif_move(x, game_board) == True:
-                        put_move(x, player1)
-                        print_board(game_board)
-            player1 =  -1
-        else: # player2 turn
-            print("Player2's turn")
-            x = int(input("Where do you want to move?"))
-            #check the move
-            if verif_move(x, game_board) == True:
-                put_move(x, player1) # put the move if it's valid
-                print_board(game_board)
-            # try again if it's not valid
-            elif verif_move(x, game_board) == False or x > 9 or x < 1:
-                while verif_move(x, game_board) == False:
-                    print("Invalid move. Please put again")
-                    x = int(input("Where do you want to move?"))
-                    if verif_move(x, game_board) == True:
-                        put_move(x, player1)
-                        print_board(game_board)
-            player1 = 1
-        #to see if game it's over
-        if game_finsh(game_board) == True:
-            if player1 == -1:
-                print("Player1 has won")
+        while finish == False:
+            if player1 == 1: # player1 turn
+                print("Player1's turn")
+                x = int(input("Where do you want to move?"))
+                # check the move
+                if verif_move(x, game_board) == True:
+                    put_move(x, player1) # put the move it's valid
+                    print_board(game_board)
+                # try again if it's not valid
+                elif verif_move(x, game_board) == False or x > 9 or x < 1:
+                    while verif_move(x, game_board) == False:
+                        print("Invalid move. Please put again")
+                        x = int(input("Where do you want to move?"))
+                        if verif_move(x, game_board) == True:
+                            put_move(x, player1)
+                            print_board(game_board)
+                player1 =  -1
+            else: # player2 turn
+                print("Player2's turn")
+                x = int(input("Where do you want to move?"))
+                #check the move
+                if verif_move(x, game_board) == True:
+                    put_move(x, player1) # put the move if it's valid
+                    print_board(game_board)
+                # try again if it's not valid
+                elif verif_move(x, game_board) == False or x > 9 or x < 1:
+                    while verif_move(x, game_board) == False:
+                        print("Invalid move. Please put again")
+                        x = int(input("Where do you want to move?"))
+                        if verif_move(x, game_board) == True:
+                            put_move(x, player1)
+                            print_board(game_board)
+                player1 = 1
+            #to see if game it's over
+            if game_finsh(game_board) == True:
+                if player1 == -1:
+                    print("Player1 has won")
+                    finish = True
+                if player1 == 1:
+                    print("Player2 has won")
+                    finish = True
+            if game_finsh(game_board) == False and board_full(game_board) == True:
+                print("It's tie")
                 finish = True
-            if player1 == 1:
-                print("Player2 has won")
-                finish = True
-        if game_finsh(game_board) == False and board_full(game_board) == True:
-            print("It's tie")
-            finish = True
-else: # player vs computer
-    print("Select the difficulty for computer")
-    print("0 - for easy, 1 - medium")
-    difficulty = int(input())
-    print("You are with 'X' and the computer is with 'O'. Good luck!")
-    print_board(game_board)
-    player1 = 1
-    while game_finsh(game_board) == False:
-        if player1 == 1: # this is for player
-            print("Player's turn ")
-            x = int(input("Where do you want to move?"))
-            # check if the move is valid
-            if verif_move(x, game_board) == True:
-                put_move(x, player1) # put the move in board if it's valid
-                print_board(game_board)
-            # if the move is not valid will try again
-            elif verif_move(x, game_board) == False or x > 9 or x < 1:
-                while verif_move(x, game_board) == False:
-                    print("Invalid move. Please put again")
-                    x = int(input("Where do you want to move?"))
-                    if verif_move(x, game_board) == True:
-                        put_move(x, player1)
-                        print_board(game_board)
-            player1 = -1
-            time.sleep(1)
-        else: # this is the computer move
-            print("Computer's turn")
-            computer_move(difficulty)
+    elif player_vs_player == 0: # player vs computer
+        print("Select the difficulty for computer")
+        print("0 - for easy, 1 - medium")
+        difficulty = int(input())
+
+        ok = False
+        if difficulty == 1 or difficulty == 0:
+            ok = True
+        while ok == False:
+            print("Invalid input")
+            difficulty = int(input())
+            if difficulty == 1 or difficulty == 0:
+                ok = True
+        if ok == True:
+            print("You are with 'X' and the computer is with 'O'. Good luck!")
             print_board(game_board)
             player1 = 1
+            while game_finsh(game_board) == False:
+                if player1 == 1: # this is for player
+                    print("Player's turn ")
+                    x = int(input("Where do you want to move?"))
+                    # check if the move is valid
+                    if verif_move(x, game_board) == True:
+                        put_move(x, player1) # put the move in board if it's valid
+                        print_board(game_board)
+                    # if the move is not valid will try again
+                    elif verif_move(x, game_board) == False or x > 9 or x < 1:
+                        while verif_move(x, game_board) == False:
+                            print("Invalid move. Please put again")
+                            x = int(input("Where do you want to move?"))
+                            if verif_move(x, game_board) == True:
+                                put_move(x, player1)
+                                print_board(game_board)
+                    player1 = -1
+                    time.sleep(1)
+                else: # this is the computer move
+                    print("Computer's turn")
+                    computer_move(difficulty)
+                    print_board(game_board)
+                    player1 = 1
 
-        #see if the game it's over
-        if game_finsh(game_board) == True:
-            if player1 == 1:
-                print("Computer has won!")
-            elif player1 == -1:
-                print("Player has won!")
-        if (game_finsh(game_board) == False) and (board_full(game_board) == True):
-            print("It's tie!")
-            finish = True
+                #see if the game it's over
+                if game_finsh(game_board) == True:
+                    if player1 == 1:
+                        print("Computer has won!")
+                    elif player1 == -1:
+                        print("Player has won!")
+                if (game_finsh(game_board) == False) and (board_full(game_board) == True):
+                    print("It's tie!")
+                    finish = True
